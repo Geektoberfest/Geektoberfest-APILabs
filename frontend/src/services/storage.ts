@@ -155,11 +155,18 @@ export function parseImport(text: string): Collection[] | null {
 function extractEntries(data: unknown): { name?: unknown; requests?: unknown }[] | null {
   if (Array.isArray(data)) return data as { name?: unknown; requests?: unknown }[];
   if (!data || typeof data !== 'object') return null;
+
   const file = data as Record<string, unknown>;
-  if (Array.isArray(file.collections)) return file.collections as { name?: unknown; requests?: unknown }[];
-  // Deliberate contributor issue (GS-API-10): the single-collection form
-  // documented above (“a file that contains just { name, requests }”) is no
-  // longer recognised, so importing such a file fails as invalid.
+
+  if (Array.isArray(file.collections)) {
+    return file.collections as { name?: unknown; requests?: unknown }[];
+  }
+
+  // Accept a file containing one collection directly.
+  if (typeof file.name === 'string' && Array.isArray(file.requests)) {
+    return [file as { name?: unknown; requests?: unknown }];
+  }
+
   return null;
 }
 
