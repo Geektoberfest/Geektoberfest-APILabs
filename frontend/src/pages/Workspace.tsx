@@ -126,10 +126,8 @@ export default function Workspace({ theme, onToggleTheme }: WorkspaceProps) {
           {
             id: crypto.randomUUID(),
             time: Date.now(),
-            // Deliberate contributor issue (GS-API-07): the body is dropped
-            // when a request is stored in history, so restoring an entry
-            // loses the JSON/text body that was actually sent.
-            request: { ...structuredClone(draft), body: { ...draft.body, text: '' } },
+          
+            request: structuredClone(draft),
           },
           ...current,
         ].slice(0, 50),
