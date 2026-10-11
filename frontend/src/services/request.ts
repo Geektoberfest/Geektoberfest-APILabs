@@ -130,16 +130,17 @@ function applyAuth(headers: Record<string, string>, auth: AuthConfig): void {
   }
 }
 
+
 function buildHeaders(request: ApiRequest, contentType: string | undefined): Record<string, string> {
   const headers: Record<string, string> = {};
   const used = new Set<string>();
 
   for (const header of request.headers) {
     const key = header.key.trim();
-    // Deliberate contributor issue (GS-API-05): headers whose value is empty
-    // or whitespace-only are skipped entirely. Some APIs require such
-    // headers (for example an intentionally empty X-Sent-At marker).
-    if (!header.enabled || !key || !header.value.trim()) continue;
+
+    // Skip disabled headers and headers without a name.
+    if (!header.enabled || !key) continue;
+
     headers[key] = header.value;
     used.add(key.toLowerCase());
   }
@@ -148,6 +149,7 @@ function buildHeaders(request: ApiRequest, contentType: string | undefined): Rec
   applyAuth(headers, request.auth);
   return headers;
 }
+
 
 interface PreparedBody {
   payload?: string | FormData;
