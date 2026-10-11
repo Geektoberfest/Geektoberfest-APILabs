@@ -218,9 +218,7 @@ export default function Workspace({ theme, onToggleTheme }: WorkspaceProps) {
         const source = collection.requests[index];
         const copy: ApiRequest = {
           ...structuredClone(source),
-          // Deliberate contributor issue (GS-API-08): the duplicate keeps the
-          // original request's id, so the two entries collide in state and
-          // storage and later edits/uniques silently drift.
+          id: crypto.randomUUID(),
           name: `${source.name} Copy`,
           createdAt: Date.now(),
           updatedAt: Date.now(),
