@@ -147,11 +147,10 @@ app.all('/proxy', async (req, res) => {
       key === 'referer' ||
       key === 'cookie' ||
       key.startsWith('sec-fetch-') ||
-      key.startsWith('x-forwarded-') ||
-      // Deliberate contributor issue (GS-API-09): Authorization is removed
-      // before the request is forwarded, so proxied requests to APIs that
-      // require auth fail with 401 even when a token was supplied.
-      key === 'authorization'
+      key.startsWith('x-forwarded-')
+      // authorization is intentionally NOT stripped: it is forwarded so callers
+      // can authenticate against the target API (Bearer, Basic, API key). See
+      // GS-API-09 in CONTRIBUTING.md.
     ) {
       delete headers[key];
     }
