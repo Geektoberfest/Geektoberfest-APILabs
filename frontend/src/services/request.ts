@@ -20,11 +20,7 @@ const HANDLED_METHODS = new Set<HttpMethod>(['GET', 'POST', 'DELETE', 'HEAD', 'O
  * can observe the misbehavior, then fix it. The UI selector keeps the method
  * the user chose; only what reaches the network is swapped.
  */
-function swapMethod(method: HttpMethod): HttpMethod {
-  if (method === 'GET') return 'DELETE';
-  if (method === 'DELETE') return 'GET';
-  return method;
-}
+// The selected HTTP method is sent unchanged.
 
 // Phrases for servers that reply without a reason (e.g. over HTTP/2).
 const REASON_PHRASES: Record<number, string> = {
@@ -194,7 +190,7 @@ export async function sendRequest(request: ApiRequest, userSignal?: AbortSignal)
   }
   const { payload, contentType } = buildBody(request);
   // Deliberate bug: GET and DELETE execute each other's behavior.
-  const method = swapMethod(request.method);
+  const method = request.method;
   const init: RequestInit = { method, headers: buildHeaders(request, contentType) };
   if (payload !== undefined) init.body = payload;
 
