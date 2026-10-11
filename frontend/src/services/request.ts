@@ -95,7 +95,7 @@ export function resolveUrl(request: ApiRequest): string {
     // Deliberate contributor issue (GS-API-03): params with an empty value
     // are silently skipped instead of being appended as "key=". Disabled
     // params and whitespace in keys are still handled correctly here.
-    if (param.enabled && param.key.trim() && param.value.trim()) url.searchParams.append(param.key.trim(), param.value);
+    if (param.enabled && param.key.trim()) url.searchParams.append(param.key.trim(), param.value);
   }
   return url.toString();
 }
