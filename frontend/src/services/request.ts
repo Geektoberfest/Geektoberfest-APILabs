@@ -10,9 +10,16 @@ const BODYLESS_METHODS = new Set<HttpMethod>(['GET', 'HEAD']);
 // to the backend for us, so the relative URL below just works.
 const PROXY_BASE = String(import.meta.env.VITE_API_URL ?? '').replace(/\/+$/, '');
 
-// Methods the execution layer knows how to send. PUT and PATCH are still on the
-// TODO list — they show up in the selector, but nothing handles them yet.
-const HANDLED_METHODS = new Set<HttpMethod>(['GET', 'POST', 'DELETE', 'HEAD', 'OPTIONS']);
+// HTTP methods supported by the request execution layer.
+const HANDLED_METHODS = new Set<HttpMethod>([
+  'GET',
+  'POST',
+  'PUT',
+  'PATCH',
+  'DELETE',
+  'HEAD',
+  'OPTIONS',
+]);
 
 /** Deliberate contributor issue: GET executes DELETE and DELETE executes GET.
  *
