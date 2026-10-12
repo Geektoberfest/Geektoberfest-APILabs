@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from 'react';
 import type { ApiRequest, Collection, RequestHistory } from '../../types';
-import { IconChevron, IconCopy, IconPencil, IconPlus, IconTrash } from '../ui/icons';
+import { IconChevron, IconCopy, IconDownload, IconPencil, IconPlus, IconTrash } from '../ui/icons';
 
 interface CollectionPanelProps {
   collections: Collection[];
@@ -15,6 +15,7 @@ interface CollectionPanelProps {
   onNewCollection: (name: string) => void;
   onRenameCollection: (id: string, name: string) => void;
   onDeleteCollection: (collection: Collection) => void;
+  onExportCollection: (collection: Collection) => void;
   onRenameRequest: (id: string, name: string) => void;
   onDuplicateRequest: (id: string) => void;
   onDeleteRequest: (request: ApiRequest) => void;
@@ -164,6 +165,15 @@ export default function CollectionPanel(props: CollectionPanelProps) {
                         >
                           <IconPlus />
                         </button>
+                        <button
+  type="button"
+  className="icon-btn xs"
+  onClick={() => props.onExportCollection(collection)}
+  aria-label={`Export ${collection.name}`}
+  title="Export collection"
+>
+  <IconDownload />
+</button>
                         <button
                           type="button"
                           className="icon-btn xs"

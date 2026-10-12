@@ -302,6 +302,20 @@ export default function Workspace({ theme, onToggleTheme }: WorkspaceProps) {
     setNotice({ text: `Exported ${collections.length} collection${collections.length === 1 ? '' : 's'}.`, tone: 'info' });
   }
 
+  function exportCollection(collection: Collection) {
+  const filename =
+    `${collection.name.trim().replace(/[^a-z0-9-_]+/gi, '-') || 'collection'}.json`;
+
+  const contents = JSON.stringify(
+    { name: collection.name, requests: collection.requests },
+    null,
+    2,
+  );
+
+  downloadJson(filename, contents);
+  setNotice({ text: `Exported "${collection.name}".`, tone: 'info' });
+}
+
   // Editor / response divider
 
   function startResize(event: React.PointerEvent<HTMLDivElement>) {
@@ -361,6 +375,7 @@ export default function Workspace({ theme, onToggleTheme }: WorkspaceProps) {
           onClearHistory={() => setHistory([])}
           onNewRequest={addRequestToCollection}
           onNewCollection={createCollection}
+          onExportCollection={exportCollection}
           onRenameCollection={renameCollection}
           onDeleteCollection={deleteCollection}
           onRenameRequest={renameRequest}
