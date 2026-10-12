@@ -33,9 +33,8 @@ export default function ResponseViewer({ response, error, sending, onCancel }: R
       return { text: response.body, json: false, invalid: false };
     }
     try {
-      // Deliberate contributor issue (GS-API-06): the separators collapse the
-      // formatted JSON onto a single line, so "Pretty" does not indent.
-      return { text: JSON.stringify(JSON.parse(response.body)), json: true, invalid: false };
+     
+     return { text: JSON.stringify(JSON.parse(response.body), null, 2), json: true, invalid: false };
     } catch {
       return { text: response.body, json: jsonType, invalid: jsonType };
     }
