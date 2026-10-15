@@ -169,11 +169,7 @@ function buildBody(request: ApiRequest): PreparedBody {
       const detail = error instanceof Error ? error.message : 'Check the syntax and try again.';
       throw new RequestError(`Invalid JSON.\n\n${detail}`);
     }
-    // Deliberate contributor issue (GS-API-04): the body is re-serialized
-    // through JSON.parse/JSON.stringify instead of being sent as typed.
-    // Formatting is destroyed and numeric precision is lost (e.g.
-    // 1.0000000000000001 becomes 1); duplicate keys are silently merged.
-    return { payload: JSON.stringify(JSON.parse(body.text)), contentType: 'application/json; charset=utf-8' };
+    return { payload: body.text, contentType: 'application/json; charset=utf-8' };
   }
 
   if (body.type === 'text') {
